@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "deliveroo-clone",
-    "slug": "deliveroo-clone",
+    "name": "Cocina Facil",
+    "slug": "cocina-facil",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,6 +28,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2cefc89a-b294-4ab6-a95a-e1cc65d8aa28"
+      }
     }
   }
 }
