@@ -10,7 +10,14 @@ import {
 import { themeColors } from '../theme'
 import * as Icon from 'react-native-feather'
 
-export default function DishRow({ name, description, id, price, image, category }) {
+export default function DishRow({
+  name,
+  description,
+  id,
+  price,
+  image,
+  category,
+}) {
   const dispatch = useDispatch()
   const basketItems = useSelector((state) => selectBasketItemsById(state, id))
   const handleIncrease = () => {
