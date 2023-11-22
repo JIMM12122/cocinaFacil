@@ -20,6 +20,12 @@ export default {
           validation: (rule) => rule.required(),
         },
         {
+          name: 'password',
+          type: 'string',
+          title: 'Password',
+          validation: (rule) => rule.required(),
+        },
+        {
           name: 'phone',
           type: 'string',
           title: 'Teléfono',
