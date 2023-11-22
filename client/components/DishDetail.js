@@ -1,53 +1,61 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, Image } from 'react-native'
-import imageUrlBuilder from '@sanity/image-url'
-import { getDishById } from '../api'
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image } from 'react-native';
+import sanityClient from '@sanity/client';
+import imageUrlBuilder from '@sanity/image-url';
 
-const builder = imageUrlBuilder()
+const client = sanityClient({
+  projectId: 'tgz0bo9w',
+  dataset: 'production',
+  useCdn: true,
+});
 
-const DishDetail = ({ route }) => {
-  const { dishId } = route.params
-  const [dishDetails, setDishDetails] = useState(null)
+const builder = imageUrlBuilder(client);
+const urlFor = (source) => builder.image(source);
+
+export default function DishDetail({ route }) {
+  const { dishId } = route.params;
+  const [dish, setDish] = useState(null);
 
   useEffect(() => {
-    getDishById(dishId).then((data) => {
-      setDishDetails(data)
-    })
-  }, [dishId])
+    // Fetch the details of the selected dish based on dishId
+    const dishQuery = `*[_type == "dish" && _id == "${dishId}"][0]`;
+    client.fetch(dishQuery).then((data) => {
+      setDish(data);
+    });
+  }, [dishId]);
 
-  if (!dishDetails) {
-    return <Text>Cargando detalles del platillo...</Text>
+  if (!dish) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
   }
 
-  const { name, description, image, price } = dishDetails
-
   return (
-    <View>
+    <View style={{ padding: 20 }}>
       <Image
         style={{ width: '100%', height: 200, borderRadius: 10 }}
         source={{
-          uri: builder.image(image).url(),
+          uri: urlFor(dish.image).url(),
         }}
       />
-      <View style={{ padding: 10 }}>
-        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{name}</Text>
-        <Text style={{ marginTop: 5, fontSize: 14, color: '#888' }}>
-          {description}
+      <View style={{ marginTop: 20 }}>
+        <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{dish.name}</Text>
+        <Text style={{ marginTop: 10, fontSize: 16, color: '#888' }}>
+          {dish.description}
         </Text>
         <Text
           style={{
-            marginTop: 5,
-            fontSize: 16,
+            marginTop: 10,
+            fontSize: 18,
             fontWeight: 'bold',
             color: '#555',
           }}
         >
-          ${price}
+          ${dish.price}
         </Text>
-        {}
       </View>
     </View>
-  )
+  );
 }
-
-export default DishDetail
