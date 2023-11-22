@@ -1,37 +1,70 @@
 import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+
+// screens
 import HomeScreen from './screens/HomeScreen'
-import ResturantScreen from './screens/ResturantScreen'
+import RestaurantScreen from './screens/RestaurantScreen'
+import SettingsScreen from './screens/SettingsScreen'
 import CartScreen from './screens/CartScreen'
 import PreparingOrderScreen from './screens/PreparingOrderScreen'
 import DeliveryScreen from './screens/DeliveryScreen'
-import DishDetail from './components/DishDetail'
-const Stack = createNativeStackNavigator()
+
+
+const Tab = createBottomTabNavigator()
+
+function MyTabs() {
+  return (
+    <Tab.Navigator initialRouteName='Home'>
+      <Tab.Screen
+        name='Home'
+        component={HomeScreen}
+        options={{
+          tabBarLabel: 'Feed',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name='home' color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='Restaurant'
+        component={RestaurantScreen}
+        options={{
+          tabBarLabel: 'Restaurant',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name='md-restaurant-sharp' size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='Settings'
+        component={SettingsScreen}
+        options={{
+          tabBarLabel: 'Settings',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name='settings-sharp' size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='Cart'
+        component={CartScreen}
+        options={{
+          tabBarLabel: 'Cart',
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name='cart-sharp' size={size} color={color} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  )
+}
 
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home'>
-        <Stack.Screen name='Home' component={HomeScreen} />
-        <Stack.Screen name='Resturant' component={ResturantScreen} />
-        <Stack.Screen name="DishDetail" component={DishDetail} /> 
-        <Stack.Screen
-          name='Cart'
-          options={{ presentation: 'modal', headerShown: false }}
-          component={CartScreen}
-        />
-        <Stack.Screen
-          name='PreparingOrder'
-          options={{ presentation: 'fullScreenModal', headerShown: false }}
-          component={PreparingOrderScreen}
-        />
-        <Stack.Screen
-          name='Delivery'
-          options={{ presentation: 'fullScreenModal', headerShown: false }}
-          component={DeliveryScreen}
-        />
-      </Stack.Navigator>
+      <MyTabs />
     </NavigationContainer>
   )
 }

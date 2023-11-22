@@ -1,7 +1,8 @@
-import { Text, View } from 'react-native'
-import Navigation from './navigation'
-import { store } from './store'
 import { Provider } from 'react-redux'
+import { store } from './store'
+
+import Navigation from './navigation'
+
 export default function App() {
   return (
     <Provider store={store}>

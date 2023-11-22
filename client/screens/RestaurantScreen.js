@@ -17,7 +17,7 @@ import { emptyBasket } from '../slices/basketSlice'
 import * as Icon from 'react-native-feather'
 import { themeColors } from '../theme'
 
-export default function ResturantScreen() {
+export default function RestaurantScreen() {
   const navigation = useNavigation()
   const resturant = useSelector(selectResturant)
   let dispatch = useDispatch()
