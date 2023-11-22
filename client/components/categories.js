@@ -41,7 +41,7 @@ export default function Categories() {
     }
   }, [activeCategory]);
   const navigateToDishDetail = (dishId) => {
-    navigation.navigate('basketIcon', { dishId });
+    navigation.navigate('dishDetail', { dishId });
   };
   return (
     <View style={{ marginTop: 20 }}>
@@ -62,8 +62,9 @@ export default function Categories() {
                 onPress={() => setActiveCategory(category)}
                 style={{ padding: 10, borderRadius: 10, shadowColor: 'black', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5, backgroundColor: btnClass }}
               >
-                <Image
-                  style={{ width: 45, height: 45, borderRadius: 22.5 }}
+               <Image
+                  style={{ width: 45, height: 45 }}
+                  className={'rounded-full'}
                   source={{
                     uri: urlFor(category.image).url(),
                   }}
