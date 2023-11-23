@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image } from 'react-native';
-import sanityClient from '@sanity/client';
-import imageUrlBuilder from '@sanity/image-url';
-
-const client = sanityClient({
-  projectId: 'tgz0bo9w',
-  dataset: 'production',
-  useCdn: true,
-});
-
-const builder = imageUrlBuilder(client);
-const urlFor = (source) => builder.image(source);
 
 export default function DishDetail({ route }) {
   const { dishId } = route.params;
@@ -18,10 +7,6 @@ export default function DishDetail({ route }) {
 
   useEffect(() => {
     // Fetch the details of the selected dish based on dishId
-    const dishQuery = `*[_type == "dish" && _id == "${dishId}"][0]`;
-    client.fetch(dishQuery).then((data) => {
-      setDish(data);
-    });
   }, [dishId]);
 
   if (!dish) {

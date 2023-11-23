@@ -1,30 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
-import sanityClient from '@sanity/client';
-import imageUrlBuilder from '@sanity/image-url';
 import { themeColors } from '../theme';
 
-const client = sanityClient({
-  projectId: 'tgz0bo9w',
-  dataset: 'production',
-  useCdn: true,
-});
 
-const builder = imageUrlBuilder(client);
-const urlFor = (source) => builder.image(source);
 
 export default function DishListScreen({ route }) {
   const { categoryId, categoryName } = route.params;
   const [dishes, setDishes] = useState([]);
 
   useEffect(() => {
-    const fetchDishes = async () => {
-      const dishesQuery = `*[_type == "dish" && category._ref == "${categoryId}"]`;
-      const data = await client.fetch(dishesQuery);
-      setDishes(data);
-    };
-
-    fetchDishes();
   }, [categoryId]);
 
   const renderDishItem = ({ item }) => (
