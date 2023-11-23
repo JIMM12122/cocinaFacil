@@ -7,6 +7,8 @@ import WelcomeScreen from './screens/WelcomeScreen'
 import LoginScreen from './screens/LoginScreen'
 import SignUpScreen from './screens/SignUpScreen'
 
+import DishListScreen from './screens/DishListScreen';
+
 const Stack = createNativeStackNavigator()
 
 export default function AppNavigation() {
@@ -33,6 +35,7 @@ export default function AppNavigation() {
           options={{ headerShown: false }}
           component={SignUpScreen}
         />
+        <Stack.Screen name="DishListScreen" component={DishListScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   )
