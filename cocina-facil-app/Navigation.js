@@ -10,6 +10,7 @@ import SignUpScreen from './screens/SignUpScreen'
 import HomeScreen from './screens/HomeScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import { useAuth } from './context/AuthContext'
+import DishListScreen from './screens/DishListScreen'
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
@@ -58,6 +59,11 @@ function StackNavigation() {
         name='SignUp'
         options={{ headerShown: false }}
         component={SignUpScreen}
+      />
+      <Stack.Screen
+        name='DishListScreen'
+        options={{ headerShown: false }}
+        component={DishListScreen}
       />
     </Stack.Navigator>
   )
