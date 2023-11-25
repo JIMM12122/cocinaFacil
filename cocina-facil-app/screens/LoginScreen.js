@@ -7,24 +7,55 @@ import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import { loginCustomer } from '../api'
 import { useAuth } from '../context/AuthContext'
+import * as Yup from 'yup'
+import { showMessage } from 'react-native-flash-message'
+
+const LoginSchema = Yup.object().shape({
+  password: Yup.string()
+    .min(6, 'Muy corta')
+    .max(30, 'Muy larga')
+    .required('Requerido'),
+  email: Yup.string().email('Email invalido').required('Requerido'),
+})
 
 export default function LoginScreen() {
   const navigation = useNavigation()
   const { setUser } = useAuth()
 
-  const handleSubmit = async (values) => {
+  const handleOnSubmit = async (values, { resetForm }) => {
     try {
       const res = await loginCustomer(values.email, values.password)
       console.log('Customer logged: ', res)
+      resetForm()
+      showMessage({
+        message: 'Usuario ingresado correctamente',
+        type: 'success',
+      })
       setUser(res)
     } catch (error) {
       console.log('Error login customer: ', error)
+      showMessage({
+        message: 'Usuario o contraseña incorrectos',
+        type: 'danger',
+      })
+
     }
   }
 
   return (
-    <Formik initialValues={{ email: '', password: '' }} onSubmit={handleSubmit}>
-      {({ values, handleSubmit, handleChange }) => (
+    <Formik
+      initialValues={{ email: '', password: '' }}
+      validationSchema={LoginSchema}
+      onSubmit={handleOnSubmit}
+    >
+      {({
+        values,
+        handleSubmit,
+        handleChange,
+        errors,
+        touched,
+        handleBlur,
+      }) => (
         <View
           className='flex-1 bg-white'
           style={{ backgroundColor: themeColors.bg }}
@@ -50,21 +81,37 @@ export default function LoginScreen() {
             className='flex-1 bg-white px-8 pt-8'
           >
             <View className='form space-y-2'>
-              <Text className='text-gray-700 ml-4'>Email</Text>
-              <TextInput
-                className='p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3'
-                placeholder='email'
-                value={values.email}
-                onChangeText={handleChange('email')}
-              />
-              <Text className='text-gray-700 ml-4'>Contraseña</Text>
-              <TextInput
-                className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
-                secureTextEntry
-                placeholder='contraseña'
-                value={values.password}
-                onChangeText={handleChange('password')}
-              />
+              <View className='mb-3'>
+                <Text className='text-gray-700 ml-4'>Email</Text>
+                <TextInput
+                  className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
+                  placeholder='email'
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                />
+                {errors.email && touched.email ? (
+                  <Text className='text-red-500 text-xs italic'>
+                    {errors.email}
+                  </Text>
+                ) : null}
+              </View>
+              <View>
+                <Text className='text-gray-700 ml-4'>Contraseña</Text>
+                <TextInput
+                  className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
+                  secureTextEntry
+                  placeholder='contraseña'
+                  value={values.password}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                />
+                {errors.password && touched.password ? (
+                  <Text className='text-red-500 text-xs italic'>
+                    {errors.password}
+                  </Text>
+                ) : null}
+              </View>
               <TouchableOpacity className='flex items-end'>
                 <Text className='text-gray-700 mb-5'>
                   ¿Olvidó su contraseña?
