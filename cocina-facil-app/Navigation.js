@@ -15,12 +15,12 @@ import DishListScreen from './screens/DishListScreen'
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
 
-function TabNavigation() {
+function AppTabNavigation() {
   return (
-    <Tab.Navigator initialRouteName='Settings'>
+    <Tab.Navigator initialRouteName='Stack'>
       <Tab.Screen
-        name='Home'
-        component={HomeScreen}
+        name='Stack'
+        component={HomeNavigation}
         options={{
           tabBarLabel: 'Feed',
           tabBarIcon: ({ color, size }) => (
@@ -42,7 +42,24 @@ function TabNavigation() {
   )
 }
 
-function StackNavigation() {
+function HomeNavigation() {
+  return (
+    <Stack.Navigator initialRouteName='Home'>
+      <Stack.Screen
+        name='Home'
+        options={{ headerShown: false }}
+        component={HomeScreen}
+      />
+      <Stack.Screen
+        name='DishListScreen'
+        options={{ headerShown: false }}
+        component={DishListScreen}
+      />
+    </Stack.Navigator>
+  )
+}
+
+function AuthNavigation() {
   return (
     <Stack.Navigator initialRouteName='Welcome'>
       <Stack.Screen
@@ -74,7 +91,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      {user ? <TabNavigation /> : <StackNavigation />}
+      {user ? <AppTabNavigation /> : <AuthNavigation />}
     </NavigationContainer>
   )
 }
