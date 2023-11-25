@@ -1,19 +1,38 @@
 import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
-import React from 'react'
 import { themeColors } from '../theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ArrowLeftIcon } from 'react-native-heroicons/solid'
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
 import { saveCustomer } from '../api'
+import * as Yup from 'yup'
+import { showMessage } from 'react-native-flash-message'
+
+const SignupSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, 'Muy Corta')
+    .max(50, 'Muy Larga')
+    .required('Requerido'),
+  password: Yup.string()
+    .min(6, 'Muy corta')
+    .max(30, 'Muy larga')
+    .required('Requerido'),
+  email: Yup.string().email('Email invalido').required('Requerido'),
+})
 
 export default function SignUpScreen() {
   const navigation = useNavigation()
 
-  const handleSubmit = async (values) => {
+  const handleOnSubmit = async (values, { resetForm }) => {
     try {
       const response = await saveCustomer(values)
       console.log('Customer saved: ', response)
+      showMessage({
+        message: 'Usuario creado correctamente',
+        type: 'success',
+      })
+      navigation.navigate('Login')
+      resetForm()
     } catch (error) {
       console.log('Error saving customer: ', error)
     }
@@ -22,9 +41,17 @@ export default function SignUpScreen() {
   return (
     <Formik
       initialValues={{ email: '', password: '', name: '' }}
-      onSubmit={handleSubmit}
+      validationSchema={SignupSchema}
+      onSubmit={handleOnSubmit}
     >
-      {({ values, handleSubmit, handleChange }) => (
+      {({
+        values,
+        handleSubmit,
+        handleChange,
+        errors,
+        touched,
+        handleBlur,
+      }) => (
         <View
           className='flex-1 bg-white'
           style={{ backgroundColor: themeColors.bg }}
@@ -50,28 +77,52 @@ export default function SignUpScreen() {
             style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50 }}
           >
             <View className='form space-y-2'>
-              <Text className='text-gray-700 ml-4'>Nombre</Text>
-              <TextInput
-                className='p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3'
-                placeholder='Enter Name'
-                value={values.name}
-                onChangeText={handleChange('name')}
-              />
-              <Text className='text-gray-700 ml-4'>Email</Text>
-              <TextInput
-                className='p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3'
-                placeholder='Enter Email'
-                value={values.email}
-                onChangeText={handleChange('email')}
-              />
-              <Text className='text-gray-700 ml-4'>Contraseña</Text>
-              <TextInput
-                className='p-4 bg-gray-100 text-gray-700 rounded-2xl mb-7'
-                secureTextEntry
-                placeholder='Enter Password'
-                value={values.password}
-                onChangeText={handleChange('password')}
-              />
+              <View className='mb-3'>
+                <Text className='text-gray-700 ml-4'>Nombre</Text>
+                <TextInput
+                  className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
+                  placeholder='Enter Name'
+                  value={values.name}
+                  onChangeText={handleChange('name')}
+                  onBlur={handleBlur('name')}
+                />
+                {errors.name && touched.name ? (
+                  <Text className='text-red-500 text-xs italic'>
+                    {errors.name}
+                  </Text>
+                ) : null}
+              </View>
+              <View className='mb-3'>
+                <Text className='text-gray-700 ml-4'>Email</Text>
+                <TextInput
+                  className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
+                  placeholder='Enter Email'
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                />
+                {errors.email && touched.email ? (
+                  <Text className='text-red-500 text-xs italic'>
+                    {errors.email}
+                  </Text>
+                ) : null}
+              </View>
+              <View className='mb-7'>
+                <Text className='text-gray-700 ml-4'>Contraseña</Text>
+                <TextInput
+                  className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
+                  secureTextEntry
+                  placeholder='Enter Password'
+                  value={values.password}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                />
+                {errors.password && touched.password ? (
+                  <Text className='text-red-500 text-xs italic'>
+                    {errors.password}
+                  </Text>
+                ) : null}
+              </View>
               <TouchableOpacity
                 className='py-3 bg-yellow-400 rounded-xl'
                 onPress={handleSubmit}
