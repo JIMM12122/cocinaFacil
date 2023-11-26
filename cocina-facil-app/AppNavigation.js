@@ -196,37 +196,36 @@ function DrawerGroup() {
   )
 }
 
-
 // Auth
 const AuthStack = createNativeStackNavigator()
 function AuthNavigation() {
-    return (
-      <AuthStack.Navigator initialRouteName='Welcome'>
-        <AuthStack.Screen
-          name='Welcome'
-          options={{ headerShown: false }}
-          component={WelcomeScreen}
-        />
-        <AuthStack.Screen
-          name='Login'
-          options={{ headerShown: false }}
-          component={LoginScreen}
-        />
-        <AuthStack.Screen
-          name='SignUp'
-          options={{ headerShown: false }}
-          component={SignUpScreen}
-        />
-      </AuthStack.Navigator>
-    )
-  }
+  return (
+    <AuthStack.Navigator initialRouteName='Welcome'>
+      <AuthStack.Screen
+        name='Welcome'
+        options={{ headerShown: false }}
+        component={WelcomeScreen}
+      />
+      <AuthStack.Screen
+        name='Login'
+        options={{ headerShown: false }}
+        component={LoginScreen}
+      />
+      <AuthStack.Screen
+        name='SignUp'
+        options={{ headerShown: false }}
+        component={SignUpScreen}
+      />
+    </AuthStack.Navigator>
+  )
+}
 
 export default function Navigation() {
-    const { user } = useAuth()
-  
-    return (
-      <NavigationContainer>
-        {user ? <DrawerGroup /> : <AuthNavigation />}
-      </NavigationContainer>
-    )
-  }
+  const { user } = useAuth()
+
+  return (
+    <NavigationContainer>
+      {user ? <DrawerGroup /> : <AuthNavigation />}
+    </NavigationContainer>
+  )
+}
