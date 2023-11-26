@@ -9,7 +9,7 @@ const client = sanityClient({
   dataset: 'production',
   useCdn: true,
 });
-
+ 
 const builder = imageUrlBuilder(client);
 const urlFor = (source) => builder.image(source);
 
