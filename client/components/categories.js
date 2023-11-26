@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import sanityClient from '@sanity/client'
+import client from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
 import { themeColors } from '../theme'
 
-const client = sanityClient({
-  projectId: 'tgz0bo9w',
-  dataset: 'production',
-  useCdn: true,
-})
 
 const builder = imageUrlBuilder(client)
 const urlFor = (source) => builder.image(source)

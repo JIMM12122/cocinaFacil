@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import { themeColors } from '../theme';
+import imageUrlBuilder from '@sanity/image-url';
+import { getDishesByCategory } from '../../client/api';
+import client from '../sanity'
 
+
+const builder = imageUrlBuilder(client);
+const urlFor = (source) => builder.image(source);
 
 
 export default function DishListScreen({ route }) {
@@ -9,6 +15,17 @@ export default function DishListScreen({ route }) {
   const [dishes, setDishes] = useState([]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getDishesByCategory(categoryId); 
+        console.log('Dishes:', response); 
+        setDishes(response);
+      } catch (error) {
+        console.error('Error fetching dishes:', error);
+       
+      }
+    };
+    fetchData();
   }, [categoryId]);
 
   const renderDishItem = ({ item }) => (

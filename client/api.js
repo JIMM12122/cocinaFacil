@@ -16,10 +16,23 @@ export const getFeaturedResturants = () => {
     `)
 }
 
-export const getCategories = () => {
-  return sanityQuery(`
-        *[_type == 'category']
+export const getCategories = async () => {
+  try {
+    const response = await sanityQuery(`
+      *[_type == 'category']
     `)
+
+    return response
+  } catch (error) {
+    console.error('Error fetching categories:', error)
+    throw error // Puedes manejar el error según sea necesario, aquí simplemente lo vuelvo a lanzar
+  }
+}
+
+export const getDishesByCategory = (categoryId) => {
+  return sanityQuery(`*[_type == "dish" && category._ref == "${categoryId}"]`, {
+    categoryId,
+  })
 }
 
 export const getFeaturedResturantById = (id) => {
