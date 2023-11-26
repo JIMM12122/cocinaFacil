@@ -11,9 +11,14 @@ import HomeScreen from './screens/HomeScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import { useAuth } from './context/AuthContext'
 import DishListScreen from './screens/DishListScreen'
+import Welcome from './screens/Welcome'
+import SignUp from './screens/Register'
+import { View } from 'react-native-web'
+
 
 const Tab = createBottomTabNavigator()
 const Stack = createNativeStackNavigator()
+const Drawer = createDrawerNavigator()
 
 function AppTabNavigation() {
   return (
@@ -42,6 +47,15 @@ function AppTabNavigation() {
   )
 }
 
+function DrawerNavigation() {
+  return (
+    <Drawer.Navigator initialRouteName='Home'>
+      <Drawer.Screen name='Home' component={HomeScreen} />
+      <Drawer.Screen name='Notifications' component={SettingsScreen} />
+    </Drawer.Navigator>
+  )
+}
+
 function HomeNavigation() {
   return (
     <Stack.Navigator initialRouteName='Home'>
@@ -65,7 +79,7 @@ function AuthNavigation() {
       <Stack.Screen
         name='Welcome'
         options={{ headerShown: false }}
-        component={WelcomeScreen}
+        component={SignUp}
       />
       <Stack.Screen
         name='Login'
@@ -91,7 +105,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      {user ? <AppTabNavigation /> : <AuthNavigation />}
+      {!!!user ? <DrawerNavigation /> : <AuthNavigation />}
     </NavigationContainer>
   )
 }
