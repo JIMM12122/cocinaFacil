@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -10,6 +9,7 @@ import SignUpScreen from './screens/SignUpScreen'
 import LoginScreen from './screens/LoginScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
 import TemplateScreen from './screens/TemplateScreen'
+import RecoverPasswordScreen from './screens/RecoverPasswordScreen'
 
 // Stack
 const HomeStack = createNativeStackNavigator()
@@ -215,6 +215,11 @@ function AuthNavigation() {
         name='SignUp'
         options={{ headerShown: false }}
         component={SignUpScreen}
+      />
+      <AuthStack.Screen
+        name='RecoverPassword'
+        options={{ headerShown: false }}
+        component={RecoverPasswordScreen}
       />
     </AuthStack.Navigator>
   )

@@ -1,14 +1,14 @@
 import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
-import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ArrowLeftIcon } from 'react-native-heroicons/solid'
-import { themeColors } from '../theme'
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
+import { showMessage } from 'react-native-flash-message'
+import * as Yup from 'yup'
+import { themeColors } from '../theme'
 import { loginCustomer } from '../api'
 import { useAuth } from '../context/AuthContext'
-import * as Yup from 'yup'
-import { showMessage } from 'react-native-flash-message'
+import GeneralButton from '../components/GeneralButton'
 
 const LoginSchema = Yup.object().shape({
   password: Yup.string()
@@ -38,7 +38,6 @@ export default function LoginScreen() {
         message: 'Usuario o contraseña incorrectos',
         type: 'danger',
       })
-
     }
   }
 
@@ -60,18 +59,18 @@ export default function LoginScreen() {
           className='flex-1 bg-white'
           style={{ backgroundColor: themeColors.bg }}
         >
-          <SafeAreaView className='flex '>
-            <View className='flex-row justify-start'>
+          <SafeAreaView className='flex pb-3'>
+            <View className='flex-row justify-start mt-2'>
               <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                className='bg-yellow-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4'
+                className='bg-green-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4'
               >
                 <ArrowLeftIcon size='20' color='black' />
               </TouchableOpacity>
             </View>
             <View className='flex-row justify-center'>
               <Image
-                source={require('../assets/images/login.png')}
+                source={require('../assets/user.png')}
                 style={{ width: 200, height: 200 }}
               />
             </View>
@@ -82,10 +81,10 @@ export default function LoginScreen() {
           >
             <View className='form space-y-2'>
               <View className='mb-3'>
-                <Text className='text-gray-700 ml-4'>Email</Text>
+                <Text className='text-gray-700 ml-4'>Correo electrónico</Text>
                 <TextInput
                   className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
-                  placeholder='email'
+                  placeholder='Ingrese su correo electrónico'
                   value={values.email}
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
@@ -101,7 +100,7 @@ export default function LoginScreen() {
                 <TextInput
                   className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
                   secureTextEntry
-                  placeholder='contraseña'
+                  placeholder='Ingrese su contraseña'
                   value={values.password}
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
@@ -112,19 +111,15 @@ export default function LoginScreen() {
                   </Text>
                 ) : null}
               </View>
-              <TouchableOpacity className='flex items-end'>
+              <TouchableOpacity
+                className='flex items-end'
+                onPress={() => navigation.navigate('RecoverPassword')}
+              >
                 <Text className='text-gray-700 mb-5'>
                   ¿Olvidó su contraseña?
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                className='py-3 bg-yellow-400 rounded-xl'
-                onPress={handleSubmit}
-              >
-                <Text className='text-xl font-bold text-center text-gray-700'>
-                  Ingresar
-                </Text>
-              </TouchableOpacity>
+              <GeneralButton title={'Ingresar'} onPress={handleSubmit} />
             </View>
             <Text className='text-xl text-gray-700 font-bold text-center py-5'>
               O Ingresar con
@@ -142,7 +137,7 @@ export default function LoginScreen() {
                 ¿No tienes una cuenta?
               </Text>
               <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                <Text className='font-semibold text-yellow-500'>
+                <Text className='font-semibold text-green-500'>
                   {' '}
                   Registrarme
                 </Text>
