@@ -178,13 +178,13 @@ const styles = StyleSheet.create({
   },
   addMoreButton: {
    
-    backgroundColor: 'orange-400',
+    backgroundColor: '#4EE476',
     padding: 10,
     borderRadius: 5,
     marginTop: 8,
   },
   addMoreButtonText: {
-    color: '#solid-orange-400',
+    color: '#fff',
     fontSize: 16,
     textAlign: 'center',
   },
