@@ -3,6 +3,8 @@ import FlashMessage from 'react-native-flash-message'
 import { AuthProvider } from './context/AuthContext'
 import Navigation from './AppNavigation'
 
+// import './styles.css'
+
 export default function App() {
   return (
     <AuthProvider>

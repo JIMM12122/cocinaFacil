@@ -10,6 +10,7 @@ import LoginScreen from './screens/LoginScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
 import TemplateScreen from './screens/TemplateScreen'
 import RecoverPasswordScreen from './screens/RecoverPasswordScreen'
+import FavoritesScreen from './screens/FavoritesScreen'
 
 // Stack
 const HomeStack = createNativeStackNavigator()
@@ -29,7 +30,7 @@ function TabsGroup() {
     <Tab.Navigator screenOptions={{ tabBarShowLabel: false }}>
       <Tab.Screen
         name='Explore'
-        component={TemplateScreen}
+        component={SettingsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name='compass' color={color} size={size} />
@@ -64,7 +65,7 @@ function TabsGroup() {
       />
       <Tab.Screen
         name='Favoritos'
-        component={TemplateScreen}
+        component={FavoritesScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
@@ -230,7 +231,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      {user ? <DrawerGroup /> : <AuthNavigation />}
+      {!user ? <DrawerGroup /> : <AuthNavigation />}
     </NavigationContainer>
   )
 }
