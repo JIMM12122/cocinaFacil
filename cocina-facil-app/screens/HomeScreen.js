@@ -13,7 +13,6 @@ import Categories from '../components/categories'
 import { getFeaturedResturants } from '../api'
 import * as Icon from 'react-native-feather'
 import DishSection from '../components/DishSection'
-
 import pizzaImg from '../assets/pizza.png'
 
 const data = [
