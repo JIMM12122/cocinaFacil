@@ -7,8 +7,8 @@ const DetallesDeLaComida = ({ navigation }) => {
   const recetas = [
     {
       id: 1,
-      nombre: 'Pasta Carbonara',
-      imagen: 'url_de_la_imagen_carbonara.jpg',
+      nombre: 'Pizza peperoni',
+      imagen: require('../assets/images/pizza.png'),
       ingredientes: [
         '200g de pasta (espaguetis, fettuccine, etc.)',
         '150g de panceta o bacon',
@@ -25,19 +25,22 @@ const DetallesDeLaComida = ({ navigation }) => {
         'Sirve caliente, espolvorea más queso parmesano y pimienta negra si lo deseas. ¡Disfruta de tu pasta carbonara!',
       ],
     },
-    // Puedes agregar más recetas según sea necesario
+    
   ];
 
   return (
     <ScrollView style={styles.container}>
+
       <SafeAreaView style={{ flex: 0, paddingBottom: 3 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: 2 }}>
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={{ backgroundColor: '#48BB78', padding: 10, borderTopRightRadius: 20, borderBottomLeftRadius: 20, marginLeft: 4 }}
+              >
+                <ArrowLeftIcon size={20} color='black' />
+              </TouchableOpacity>
+            </View>
         <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-          >
-            <ArrowLeftIcon size={20} color='black' />
-          </TouchableOpacity>
         </View>
       </SafeAreaView>
 
@@ -45,7 +48,12 @@ const DetallesDeLaComida = ({ navigation }) => {
         {recetas.map((receta) => (
           <View key={receta.id}>
             <Text style={styles.title}>{receta.nombre}</Text>
-            <Image source={{ uri: receta.imagen }} style={styles.recetaImagen} />
+          <View style={{ justifyContent : 'center', alignItems : 'center'}}>
+            <Image
+                 source={require('../assets/images/pizza.png')}
+                style={{ width: 200, height: 200, justifyContent : 'center', alignItems : 'center'}}
+              />
+          </View>
 
             <Text style={styles.subtitle}>Ingredientes:</Text>
             {receta.ingredientes.map((ingrediente, index) => (
