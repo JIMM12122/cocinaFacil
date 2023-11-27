@@ -29,7 +29,7 @@ function TabsGroup() {
     <Tab.Navigator screenOptions={{ tabBarShowLabel: false }}>
       <Tab.Screen
         name='Explore'
-        component={TemplateScreen}
+        component={SettingsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name='compass' color={color} size={size} />
