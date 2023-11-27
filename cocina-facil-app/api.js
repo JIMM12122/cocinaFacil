@@ -1,3 +1,4 @@
+import client from './sanity'
 import sanityClient from './sanity'
 let sanityQuery = (query, params) => sanityClient.fetch(query, params)
 
@@ -60,11 +61,22 @@ export const saveCustomer = async (customer) => {
   }
 
   try {
-    const response = await sanityClient.create(customerData)
+    const response = await sanityClient.mutate(customerData)
 
     return response
   } catch (error) {
     console.log('Error saving customer: ', error)
+    throw error
+  }
+}
+
+export const updateCostumer = async (customer) => {
+  try {
+    const response = await client.patch(customer._id).set(customer).commit()
+
+    return response
+  } catch (error) {
+    console.log('Error updating customer: ', error)
     throw error
   }
 }
@@ -75,7 +87,9 @@ export const loginCustomer = async (email, password) => {
       `
       *[_type == 'Customer' && email == $email]{
         _id,
-        password
+        password,
+        name,
+        phone,
       }
     `,
       { email },
@@ -92,7 +106,12 @@ export const loginCustomer = async (email, password) => {
       throw new Error('Invalid password')
     }
 
-    return { customerId: customer._id, email: email }
+    return {
+      customerId: customer._id,
+      email: email,
+      name: customer.name,
+      phone: customer.phone,
+    }
   } catch (error) {
     console.log('Error logging in: ', error)
     throw error

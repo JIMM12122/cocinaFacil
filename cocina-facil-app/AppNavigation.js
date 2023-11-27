@@ -12,6 +12,7 @@ import SignUpScreen from './screens/SignUpScreen'
 import LoginScreen from './screens/LoginScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
 import HomeScreen from './screens/HomeScreen'
+import { FontAwesome } from '@expo/vector-icons'
 import TemplateScreen from './screens/TemplateScreen'
 import RecoverPasswordScreen from './screens/RecoverPasswordScreen'
 import FavoritesScreen from './screens/FavoritesScreen'
@@ -57,11 +58,7 @@ function TabsGroup() {
         options={{
           title: 'Carrito de compras',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name='bag-checked'
-              color={color}
-              size={size}
-            />
+            <FontAwesome name='shopping-cart' size={size} color={color} />
           ),
         }}
       />
@@ -83,6 +80,8 @@ function TabsGroup() {
 }
 
 function CustomDrawerContent(props) {
+  const { user } = useAuth()
+
   return (
     <DrawerContentScrollView {...props}>
       <View
@@ -98,8 +97,8 @@ function CustomDrawerContent(props) {
           source={require('./assets/user.png')}
           style={{ width: 165, height: 110 }}
         />
-        <Text style={{ fontWeight: 'bold' }}>Alejandro Navarro Bonilla</Text>
-        <Text>alejandro@gmail.com</Text>
+        <Text style={{ fontWeight: 'bold' }}>{user.name}</Text>
+        <Text>{user.email}</Text>
       </View>
       <DrawerItemList {...props} />
     </DrawerContentScrollView>
@@ -250,7 +249,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      {!user ? <DrawerGroup /> : <AuthNavigation />}
+      {user ? <DrawerGroup /> : <AuthNavigation />}
     </NavigationContainer>
   )
 }

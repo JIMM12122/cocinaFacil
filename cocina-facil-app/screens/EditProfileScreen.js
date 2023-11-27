@@ -1,122 +1,138 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArrowLeftIcon } from 'react-native-heroicons/solid';
-import { useNavigation } from '@react-navigation/native';
-import { Formik } from 'formik';
-import { showMessage } from 'react-native-flash-message';
-import * as Yup from 'yup';
-import { themeColors } from '../theme';
-import GeneralButton from '../components/GeneralButton';
+import React, { useState } from 'react'
+import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { ArrowLeftIcon } from 'react-native-heroicons/solid'
+import { useNavigation } from '@react-navigation/native'
+import { Formik } from 'formik'
+import { showMessage } from 'react-native-flash-message'
+import * as Yup from 'yup'
+import { themeColors } from '../theme'
+import GeneralButton from '../components/GeneralButton'
+import { useAuth } from '../context/AuthContext'
+import { saveCustomer, updateCostumer } from '../api'
 
 const EditProfileSchema = Yup.object().shape({
-  // Define los campos y validaciones para la edición del perfil
-  // Por ejemplo, nombre, correo electrónico, etc.
-});
+  name: Yup.string()
+    .min(2, 'Muy Corto')
+    .max(50, 'Muy Largo')
+    .required('Requerido'),
+  phone: Yup.string().min(8, 'Formato incorrecto').max(8, 'Formato incorrecto'),
+  email: Yup.string().email('Email invalido').required('Requerido'),
+})
 
 const EditProfileScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
+  const { user, setUser } = useAuth()
 
   const handleOnSubmit = async (values, { resetForm }) => {
     try {
-      // Lógica para actualizar el perfil en el servidor
-      // Puedes llamar a una función de API para manejar esto
-      console.log('Perfil actualizado:', values);
-      resetForm();
+      values = { ...values, _id: user.customerId }
+      const response = await updateCostumer(values)
+
+      console.log('Perfil actualizado:', values, response)
+      setUser({ ...user, ...values })
       showMessage({
         message: 'Perfil actualizado correctamente',
         type: 'success',
-      });
+      })
     } catch (error) {
-      console.error('Error al actualizar el perfil:', error);
+      console.error('Error al actualizar el perfil:', error)
       showMessage({
         message: 'Error al actualizar el perfil',
         type: 'danger',
-      });
+      })
     }
-  };
+  }
 
   return (
     <Formik
-      initialValues={{ /* Inicializa los valores según tu modelo de datos */ }}
+      initialValues={user}
       validationSchema={EditProfileSchema}
       onSubmit={handleOnSubmit}
     >
-      {({ values, handleSubmit, handleChange, errors, touched, handleBlur }) => (
+      {({
+        values,
+        handleSubmit,
+        handleChange,
+        errors,
+        touched,
+        handleBlur,
+      }) => (
         <View style={{ flex: 1, backgroundColor: themeColors.bg }}>
-          <SafeAreaView style={{ flex: 0, paddingBottom: 3 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: 2 }}>
+          <SafeAreaView className='flex pb-3'>
+            <View className='flex-row justify-start mt-2'>
               <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                style={{ backgroundColor: '#48BB78', padding: 10, borderTopRightRadius: 20, borderBottomLeftRadius: 20, marginLeft: 4 }}
+                className='bg-green-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4'
               >
-                <ArrowLeftIcon size={20} color='black' />
+                <ArrowLeftIcon size='20' color='black' />
               </TouchableOpacity>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <View className='flex-row justify-center'>
               <Image
-                 source={require('../assets/user.png')}
-                style={{ width: 200, height: 200 }}
+                resizeMode='contain'
+                source={require('../assets/user.png')}
+                style={{ width: 165, height: 110 }}
               />
             </View>
           </SafeAreaView>
-          <View style={{ borderTopLeftRadius: 12, borderTopRightRadius: 12, flex: 1, backgroundColor: 'white', paddingHorizontal: 8, paddingTop: 8 }}>
-            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
-              {/* Agrega campos de edición según tus necesidades */}
-              <View style={{ marginBottom: 3 }}>
-                <Text style={{ color: '#4B5563', marginLeft: 4 }}>Nombre</Text>
+          <View
+            className='flex-1 bg-white px-8 pt-8'
+            style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50 }}
+          >
+            <View className='form space-y-2'>
+              <View className='mb-3'>
+                <Text className='text-gray-700 ml-4'>Nombre completo</Text>
                 <TextInput
-                  style={{ padding: 16, backgroundColor: '#F3F4F6', color: '#4B5563', borderRadius: 20 }}
-                  placeholder='Ingresa tu nombre'
+                  className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
+                  placeholder='Ingrese su nombre'
                   value={values.name}
                   onChangeText={handleChange('name')}
                   onBlur={handleBlur('name')}
                 />
                 {errors.name && touched.name ? (
-                  <Text style={{ color: 'red', fontSize: 12 }}>{errors.name}</Text>
+                  <Text className='text-red-500 text-xs italic'>
+                    {errors.name}
+                  </Text>
                 ) : null}
               </View>
-              <View style={{ marginBottom: 3 }}>
-                <Text style={{ color: '#4B5563', marginLeft: 4 }}>Correo electrónico</Text>
+              <View className='mb-3'>
+                <Text className='text-gray-700 ml-4'>Correo electrónico</Text>
                 <TextInput
-                  style={{ padding: 16, backgroundColor: '#F3F4F6', color: '#4B5563', borderRadius: 20 }}
-                  placeholder='Ingresa tu correo electrónico'
+                  className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
+                  placeholder='Ingrese su correo electrónico'
                   value={values.email}
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
                 />
                 {errors.email && touched.email ? (
-                  <Text style={{ color: 'red', fontSize: 12 }}>{errors.email}</Text>
+                  <Text className='text-red-500 text-xs italic'>
+                    {errors.email}
+                  </Text>
                 ) : null}
               </View>
-
-              <View style={{ marginBottom: 3 }}>
-                <Text style={{ color: '#4B5563', marginLeft: 4 }}>Telefono</Text>
+              <View className='mb-7'>
+                <Text className='text-gray-700 ml-4'>Teléfono</Text>
                 <TextInput
-                  style={{ padding: 16, backgroundColor: '#F3F4F6', color: '#4B5563', borderRadius: 20 }}
-                  placeholder='Ingresa tu telefono'
+                  className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
+                  placeholder='Ingrese su teléfono'
                   value={values.phone}
                   onChangeText={handleChange('phone')}
                   onBlur={handleBlur('phone')}
                 />
                 {errors.phone && touched.phone ? (
-                  <Text style={{ color: 'red', fontSize: 12 }}>{errors.phone}</Text>
+                  <Text className='text-red-500 text-xs italic'>
+                    {errors.phone}
+                  </Text>
                 ) : null}
               </View>
-
-
             </View>
-
-            <View style={{ borderTopLeftRadius: 50, borderTopRightRadius: 50, flex: 1, backgroundColor: 'white', paddingHorizontal: 8, paddingTop: 8 }}>
-              <View>
-                <GeneralButton title={'Guardar cambios'} onPress={handleSubmit} />
-              </View>
-            </View>
+            <GeneralButton title={'Guardar cambios'} onPress={handleSubmit} />
           </View>
         </View>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default EditProfileScreen;
+export default EditProfileScreen
