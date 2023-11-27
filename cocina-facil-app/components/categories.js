@@ -15,18 +15,17 @@ export default function Categories() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getCategories(); 
-        console.log('Categories:', response); 
-        setCategories(response);
+        const response = await getCategories()
+        console.log('Categories:', response)
+        setCategories(response)
       } catch (error) {
-        console.error('Error fetching categories:', error);
-       
+        console.error('Error fetching categories:', error)
       }
-    };
-  
-    fetchData();
-  }, []); 
-  
+    }
+
+    fetchData()
+  }, [])
+
   const navigateToDishList = (categoryId, categoryName) => {
     console.log('Category Name:', categoryName)
     navigation.navigate('DishListScreen', { categoryId, categoryName })
@@ -42,7 +41,11 @@ export default function Categories() {
         }}
       >
         {categories.map((category) => (
-          <View key={category._id} style={{ marginRight: 10 }}>
+          <View
+            key={category._id}
+            style={{ marginRight: 10 }}
+            className='justify-evenly items-center'
+          >
             <TouchableOpacity
               onPress={() =>
                 category.name && navigateToDishList(category._id, category.name)
@@ -51,7 +54,7 @@ export default function Categories() {
               <Image
                 style={{ width: 45, height: 45, borderRadius: 22.5 }}
                 source={{
-                  uri:  urlFor(category.image).url(),
+                  uri: urlFor(category.image).url(),
                 }}
               />
             </TouchableOpacity>
