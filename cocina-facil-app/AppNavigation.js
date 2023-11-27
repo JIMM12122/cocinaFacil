@@ -11,6 +11,8 @@ import WelcomeScreen from './screens/WelcomeScreen'
 import TemplateScreen from './screens/TemplateScreen'
 import RecoverPasswordScreen from './screens/RecoverPasswordScreen'
 import FavoritesScreen from './screens/FavoritesScreen'
+import AddNewAddressScreen from './screens/AddNewAddress'
+import EditProfileScreen from './screens/EditProfileScreen'
 
 // Stack
 const HomeStack = createNativeStackNavigator()
@@ -111,7 +113,7 @@ function DrawerGroup() {
       />
       <Drawer.Screen
         name='Mi perfil'
-        component={TemplateScreen}
+        component={EditProfileScreen}
         options={{
           drawerIcon: (focused, size, color) => (
             <MaterialCommunityIcons
@@ -125,7 +127,7 @@ function DrawerGroup() {
       />
       <Drawer.Screen
         name='Direcciones de entrega'
-        component={TemplateScreen}
+        component={AddNewAddressScreen}
         options={{
           drawerIcon: (focused, size, color) => (
             <MaterialCommunityIcons
