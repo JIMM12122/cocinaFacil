@@ -14,6 +14,7 @@ import FavoritesScreen from './screens/FavoritesScreen'
 import AddNewAddressScreen from './screens/AddNewAddress'
 import EditProfileScreen from './screens/EditProfileScreen'
 import DishListScreen from './screens/DishListScreen'
+import Cart from './screens/Cart'
 
 // Stack
 const HomeStack = createNativeStackNavigator()
@@ -42,7 +43,7 @@ function TabsGroup() {
       />
       <Tab.Screen
         name='Ubicaciones'
-        component={TemplateScreen}
+        component={Cart}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
@@ -55,7 +56,7 @@ function TabsGroup() {
       />
       <Tab.Screen
         name='Cart'
-        component={TemplateScreen}
+        component={Cart}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
