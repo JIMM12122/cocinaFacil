@@ -1,7 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { createDrawerNavigator } from '@react-navigation/drawer'
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+  createDrawerNavigator,
+} from '@react-navigation/drawer'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useAuth } from './context/AuthContext'
 import SignUpScreen from './screens/SignUpScreen'
@@ -15,6 +19,7 @@ import AddNewAddressScreen from './screens/AddNewAddress'
 import EditProfileScreen from './screens/EditProfileScreen'
 import DishListScreen from './screens/DishListScreen'
 import Cart from './screens/Cart'
+import { Image, Text, View } from 'react-native'
 
 // Stack
 const HomeStack = createNativeStackNavigator()
@@ -31,7 +36,12 @@ function HomeStackGroup() {
 const Tab = createBottomTabNavigator()
 function TabsGroup() {
   return (
-    <Tab.Navigator screenOptions={{ tabBarShowLabel: false, tabBarActiveTintColor: '#FE724C' }} >
+    <Tab.Navigator
+      screenOptions={{
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: '#FE724C',
+      }}
+    >
       <Tab.Screen
         name='Explore'
         component={HomeScreen}
@@ -93,22 +103,62 @@ function TabsGroup() {
   )
 }
 
+function CustomDrawerContent(props) {
+  return (
+    <DrawerContentScrollView {...props}>
+      <View
+        style={{
+          alignItems: 'center',
+          padding: 20,
+          justifyContent: 'center',
+          gap: 5,
+        }}
+      >
+        <Image
+          resizeMode='contain'
+          source={require('./assets/user.png')}
+          style={{ width: 165, height: 110 }}
+        />
+        <Text style={{ fontWeight: 'bold' }}>Alejandro Navarro Bonilla</Text>
+        <Text>alejandro@gmail.com</Text>
+      </View>
+      <DrawerItemList {...props} />
+    </DrawerContentScrollView>
+  )
+}
+
 // Drawer
 const Drawer = createDrawerNavigator()
 function DrawerGroup() {
   return (
-    <Drawer.Navigator screenOptions={{ headerShown: false }}>
-      <Drawer.Screen name='Principal' component={HomeStackGroup} />
+    <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      screenOptions={{ headerShown: false, drawerActiveTintColor: '#FE724C' }}
+    >
+      <Drawer.Screen
+        name='Explorar'
+        component={HomeStackGroup}
+        options={{
+          drawerIcon: (focused, color) => (
+            <MaterialCommunityIcons
+              name='compass'
+              focused={focused}
+              color={color}
+              size={25}
+            />
+          ),
+        }}
+      />
       <Drawer.Screen
         name='Mis ordenes'
         component={TemplateScreen}
         options={{
-          drawerIcon: (focused, size, color) => (
+          drawerIcon: (focused, color) => (
             <MaterialCommunityIcons
               name='format-list-bulleted'
               focused={focused}
               color={color}
-              size={size}
+              size={25}
             />
           ),
         }}
@@ -117,10 +167,10 @@ function DrawerGroup() {
         name='Mi perfil'
         component={EditProfileScreen}
         options={{
-          drawerIcon: (focused, size, color) => (
+          drawerIcon: (focused, color) => (
             <MaterialCommunityIcons
               name='account'
-              size={size}
+              size={25}
               color={color}
               focused={focused}
             />
@@ -131,11 +181,11 @@ function DrawerGroup() {
         name='Direcciones de entrega'
         component={AddNewAddressScreen}
         options={{
-          drawerIcon: (focused, size, color) => (
+          drawerIcon: (focused, color) => (
             <MaterialCommunityIcons
               name='map-marker'
               focused={focused}
-              size={size}
+              size={25}
               color={color}
             />
           ),
@@ -145,12 +195,12 @@ function DrawerGroup() {
         name='Métodos de pago'
         component={TemplateScreen}
         options={{
-          drawerIcon: (focused, size, color) => (
+          drawerIcon: (focused, color) => (
             <MaterialCommunityIcons
               name='card-bulleted'
               focused={focused}
               color={color}
-              size={size}
+              size={25}
             />
           ),
         }}
@@ -159,12 +209,12 @@ function DrawerGroup() {
         name='Contactanos'
         component={TemplateScreen}
         options={{
-          drawerIcon: (focused, size, color) => (
+          drawerIcon: (focused, color) => (
             <MaterialCommunityIcons
               name='email'
               focused={focused}
               color={color}
-              size={size}
+              size={25}
             />
           ),
         }}
@@ -173,12 +223,12 @@ function DrawerGroup() {
         name='Configuración'
         component={TemplateScreen}
         options={{
-          drawerIcon: (focused, size, color) => (
+          drawerIcon: (focused, color) => (
             <MaterialCommunityIcons
               name='cog'
               focused={focused}
               color={color}
-              size={size}
+              size={25}
             />
           ),
         }}
@@ -187,12 +237,12 @@ function DrawerGroup() {
         name='Ayuda & FAQs'
         component={TemplateScreen}
         options={{
-          drawerIcon: (focused, size, color) => (
+          drawerIcon: (focused, color) => (
             <MaterialCommunityIcons
               name='help-box'
               focused={focused}
               color={color}
-              size={size}
+              size={25}
             />
           ),
         }}
