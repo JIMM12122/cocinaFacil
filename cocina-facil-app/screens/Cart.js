@@ -72,7 +72,7 @@ const Cart = () => {
   const renderItem = ({ item }) => (
     <View className='flex flex-row items-center justify-between'>
       <View
-        className='flex flex-row items-end justify-between'
+        className='flex flex-row items-center justify-between'
         style={{ columnGap: 10 }}
       >
         <Image
