@@ -35,13 +35,13 @@ export default function HomeScreen() {
         <View className='flex-row flex-1 items-center p-3 rounded-full border border-gray-300'>
           <Icon.Search height='25' width='25' stroke='gray' />
           <TextInput
-            placeholder='Resturants'
+            placeholder='Buscar'
             className='ml-2 flex-1'
             keyboardType='default'
           />
           <View className='flex-row items-center space-x-1 border-0 border-l-2 pl-2 border-l-gray-300'>
             <Icon.MapPin height='20' width='20' stroke='gray' />
-            <Text className='text-gray-600'>New York, NYC</Text>
+            <Text className='text-gray-600'>San Isidro, PZ</Text>
           </View>
         </View>
         <View
