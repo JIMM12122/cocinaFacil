@@ -3,26 +3,42 @@ import { View, Text, TextInput, Button } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ArrowLeftIcon } from 'react-native-heroicons/solid'
-import { useNavigation } from '@react-navigation/native'
 import { themeColors } from '../theme'
+import client from '../sanity'
+import { getCategories } from '../api'
+import imageUrlBuilder from '@sanity/image-url'
+import { useNavigation } from '@react-navigation/native'
 
 const AddNewAddress = () => {
   const navigation = useNavigation()
 
   const [address, setAddress] = useState({
-    name: '',
-    street: '',
-    city: '',
+    direcction: '',
+    canton: '',
     district: '',
+    province: '',
+
   })
 
-  const handleAddAddress = () => {
+  const handleAddAddress = async () => {
     console.log('Nueva dirección:', address)
+    try {
+      await client.create({
+        _type: 'addDirecctions',
+        ...address,
+      })
+      alert('Dirección agregada exitosamente a Sanity.')
+      console.log('Dirección agregada exitosamente a Sanity.')
+    } catch (error) {
+      console.error('Error al agregar dirección a Sanity:', error)
+    }
+
+   
     setAddress({
-      name: '',
-      street: '',
-      city: '',
+      direcction: '',
+      canton: '',
       district: '',
+      province: '',
     })
   }
 
@@ -59,22 +75,23 @@ const AddNewAddress = () => {
           }}
         >
           <View className='mb-1'>
-          <Text
+            <Text
               style={{
                 width: 60,
                 color: '#788080',
                 fontSize: 16,
                 fontWeight: 'normal',
-                fontFamily: 'ABeeZee',
               }}
             >
-            Dirección exacta
-          </Text>
+              Dirección exacta
+            </Text>
             <TextInput
               className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
               placeholder='Dirección exacta'
-              value={address.name}
-              onChangeText={(text) => setAddress({ ...address, name: text })}
+              value={address.direction}
+              onChangeText={(text) =>
+                setAddress({ ...address, direction: text })
+              }
             />
           </View>
 
@@ -85,7 +102,6 @@ const AddNewAddress = () => {
                 color: '#788080',
                 fontSize: 16,
                 fontWeight: 'normal',
-                fontFamily: 'ABeeZee',
               }}
             >
               Canton
@@ -97,22 +113,22 @@ const AddNewAddress = () => {
                 color: '#4B5563',
                 borderRadius: 20,
               }}
-              value={address.street}
+              value={address.canton}
               placeholder='Canton'
-              onChangeText={(text) => setAddress({ ...address, street: text })}
+              onChangeText={(text) => setAddress({ ...address, canton: text })}
             />
           </View>
 
           <View style={{ marginBottom: 3 }}>
-          <Text
+            <Text
               style={{
                 width: 60,
                 color: '#788080',
                 fontSize: 16,
                 fontWeight: 'normal',
-                fontFamily: 'ABeeZee',
               }}
-            >Distrito
+            >
+              Distrito
             </Text>
             <TextInput
               style={{
@@ -122,21 +138,24 @@ const AddNewAddress = () => {
                 borderRadius: 20,
               }}
               placeholder='Distrito'
-              value={address.city}
-              onChangeText={(text) => setAddress({ ...address, city: text })}
+              value={address.district}
+              onChangeText={(text) =>
+                setAddress({ ...address, district: text })
+              }
             />
           </View>
 
           <View style={{ marginBottom: 3 }}>
-          <Text
+            <Text
               style={{
                 width: 60,
                 color: '#788080',
                 fontSize: 16,
                 fontWeight: 'normal',
-                fontFamily: 'ABeeZee',
               }}
-            >Provincia</Text>
+            >
+              Provincia
+            </Text>
             <TextInput
               style={{
                 padding: 16,
@@ -145,9 +164,9 @@ const AddNewAddress = () => {
                 borderRadius: 20,
               }}
               placeholder='Provincia'
-              value={address.district}
+              value={address.province}
               onChangeText={(text) =>
-                setAddress({ ...address, district: text })
+                setAddress({ ...address, province: text })
               }
             />
           </View>
