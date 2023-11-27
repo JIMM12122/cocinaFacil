@@ -8,8 +8,12 @@ import {
   StyleSheet,
 } from 'react-native'
 import GeneralButton from '../components/GeneralButton'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { ArrowLeftIcon } from 'react-native-heroicons/solid'
+import { useNavigation } from '@react-navigation/native'
 
 const Cart = () => {
+  const navigation = useNavigation()
   const [cartItems, setCartItems] = useState([
     { id: 1, name: 'Pizza', price: 5000, quantity: 1 },
     { id: 2, name: 'Hamburguesa', price: 5000, quantity: 1 },
@@ -84,6 +88,16 @@ const Cart = () => {
 
   return (
     <View style={styles.container}>
+      
+        <View  className='flex-row justify-start mt-1' >
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            className='bg-green-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4'
+          >
+            <ArrowLeftIcon size={20} color='black' />
+          </TouchableOpacity>
+        </View>
+      
       <FlatList
         data={cartItems}
         renderItem={renderItem}
