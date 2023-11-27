@@ -19,6 +19,7 @@ import AddNewAddressScreen from './screens/AddNewAddress'
 import EditProfileScreen from './screens/EditProfileScreen'
 import DishListScreen from './screens/DishListScreen'
 import Cart from './screens/Cart'
+
 import { Image, Text, View } from 'react-native'
 
 // Stack
@@ -143,15 +144,15 @@ function DrawerGroup() {
         }}
       />
       <Drawer.Screen
-        name='Mi perfil'
-        component={EditProfileScreen}
+        name='Mis direcciones'
+        component={AddNewAddressScreen}
         options={{
           drawerIcon: (focused, color) => (
             <MaterialCommunityIcons
-              name='account'
-              size={25}
-              color={color}
+              name='map-marker'
               focused={focused}
+              color={color}
+              size={25}
             />
           ),
         }}

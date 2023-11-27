@@ -6,5 +6,6 @@ import Order from './Order'
 import shoppingCartItem from './shoppingCartItem'
 import shoppingCart from './shoppingCart'
 import rateReview from './rateReview'
+import addDirecctions from './addDirecctions'
 
-export const schemaTypes = [dish, category, Customer, Order, PaymentMethod, shoppingCartItem, shoppingCart, rateReview]
+export const schemaTypes = [dish, category, Customer, Order, PaymentMethod, shoppingCartItem, shoppingCart, rateReview, addDirecctions]
