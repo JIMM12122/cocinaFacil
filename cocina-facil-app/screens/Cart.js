@@ -5,12 +5,13 @@ import {
   FlatList,
   TouchableOpacity,
   TextInput,
-  StyleSheet,
   Image,
 } from 'react-native'
-import { ArrowLeftIcon } from 'react-native-heroicons/solid'
 import { useNavigation } from '@react-navigation/native'
 import GeneralButton from '../components/GeneralButton'
+import { Ionicons } from '@expo/vector-icons'
+import { Feather } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 
 const Cart = () => {
   const navigation = useNavigation()
@@ -69,186 +70,119 @@ const Cart = () => {
   }
 
   const renderItem = ({ item }) => (
-    <View style={styles.cartItem}>
-      <Image
-        source={require('../assets/images/pizza.png')}
-        style={styles.itemImage}
-      />
-      <Text style={styles.itemName}>{item.name}</Text>
-      <Text style={styles.itemPrice}>CRC {item.price.toFixed(2)}</Text>
-      <Text style={styles.itemQuantity}>Cantidad: {item.quantity}</Text>
-
-      <View style={styles.buttonContainer}>
+    <View className='flex flex-row items-center justify-between'>
+      <View
+        className='flex flex-row items-end justify-between'
+        style={{ columnGap: 10 }}
+      >
+        <Image
+          source={require('../assets/images/pizza.png')}
+          className='h-24 w-24 rounded-2xl'
+          resizeMode='cover'
+        />
+        <View className='flex flex-col'>
+          <Text className='text-lg font-medium'>{item.name}</Text>
+          <Text className='text-lg font-medium' style={{ color: '#FE724C' }}>
+            ₡ {item.price.toFixed(2)}
+          </Text>
+        </View>
+      </View>
+      <View className='h-full flex flex-column items-end'>
         <TouchableOpacity
-          style={styles.addMoreButton}
-          onPress={() => AddMoreItem(item.id)}
-        >
-          <Text style={styles.addMoreButtonText}>+</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.removeButton}
+          className='rounded-full w-8 h-8 items-center justify-center'
           onPress={() => removeItem(item.id)}
         >
-          <Text style={styles.removeButtonText}>-</Text>
+          <Entypo name='cross' size={24} color='#FE724C' />
         </TouchableOpacity>
+        <View style={{ height: 30 }} />
+        <View
+          className='flex flex-row items-center justify-between'
+          style={{ columnGap: 10 }}
+        >
+          <TouchableOpacity
+            className='rounded-full w-8 h-8 items-center justify-center'
+            style={{ borderColor: '#FE724C', borderWidth: 2 }}
+            onPress={() => removeItem(item.id)}
+          >
+            <Feather name='minus' size={24} color='black' />
+          </TouchableOpacity>
+          <Text>{item.quantity}</Text>
+          <TouchableOpacity
+            className='rounded-full w-8 h-8 items-center justify-center'
+            style={{ backgroundColor: '#FE724C' }}
+            onPress={() => AddMoreItem(item.id)}
+          >
+            <Ionicons name='add-sharp' size={24} color='black' />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   )
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-      <TouchableOpacity
-                onPress={() => navigation.goBack()}
-                className='bg-green-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4'
-              >
-                <ArrowLeftIcon size='20' color='black' />
-              </TouchableOpacity>
-      </View>
-
+    <View className='p-3 h-full flex flex-column content-evenly'>
       <FlatList
         data={cartItems}
         renderItem={renderItem}
+        ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
         keyExtractor={(item) => item.id.toString()}
       />
-
-      <View style={styles.taxesContainer}>
-        <Text style={styles.taxesText}>
-          Impuestos: 13 % CRC {calculateTaxes().toFixed(2)}
-        </Text>
-      </View>
-
-      <View style={styles.promoCodeContainer}>
+      <View className='flex flex-row p-3 mt-5 rounded-3xl border border-gray-300'>
         <TextInput
-          style={styles.promoCodeInput}
           placeholder='Código promocional'
+          className='ml-2 flex-1'
+          keyboardType='default'
           value={promoCode}
           onChangeText={(text) => setPromoCode(text)}
         />
-        <TouchableOpacity style={styles.applyButton} onPress={applyPromoCode}>
-          <Text style={styles.applyButtonText}>Aplicar</Text>
+        <TouchableOpacity
+          className={'py-4 w-40 bg-green-400 rounded-2xl'}
+          onPress={applyPromoCode}
+        >
+          <Text className={'font-xl font-bold text-center text-gray-700'}>
+            Aplicar
+          </Text>
         </TouchableOpacity>
       </View>
-
-      <View style={styles.totalContainer}>
-        <Text style={styles.subtotalText}>
-          Subtotal: CRC {calculateSubtotal().toFixed(2)}
-        </Text>
-        <Text style={styles.totalText}>
-          Total: CRC {calculateTotal().toFixed(2)}
-        </Text>
+      <View className='mt-5'>
+        <View className='flex flex-row justify-between'>
+          <Text className='text-lg font-medium'>Subtotal:</Text>
+          <Text className='text-lg font-medium'>
+            ₡ {calculateSubtotal().toFixed(2)}
+          </Text>
+        </View>
+        <View
+          className='border-gray-300'
+          style={{
+            borderBottomWidth: 1,
+            marginVertical: 10,
+          }}
+        />
+        <View className='flex flex-row justify-between'>
+          <Text className='text-lg font-medium'>Impuestos (13%):</Text>
+          <Text className='text-lg font-medium'>
+            ₡ {calculateTaxes().toFixed(2)}
+          </Text>
+        </View>
+        <View
+          className='border-gray-300'
+          style={{
+            borderBottomWidth: 1,
+            marginVertical: 10,
+          }}
+        />
+        <View className='flex flex-row justify-between'>
+          <Text className='text-lg font-medium'>Total:</Text>
+          <Text className='text-lg font-medium'>
+            ₡ {calculateTotal().toFixed(2)}
+          </Text>
+        </View>
+      </View>
+      <View className='mt-5'>
         <GeneralButton title={'Realizar pedido'} onPress={handleSubmit} />
       </View>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginTop: 1,
-  },
-
-  cartItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    paddingBottom: 8,
-  },
-  itemName: {
-    fontSize: 16,
-  },
-  itemPrice: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  itemQuantity: {
-    fontSize: 16,
-    marginLeft: 8,
-  },
-  addMoreButton: {
-   
-    backgroundColor: '#4EE476',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 8,
-  },
-  addMoreButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  removeButton: {
-    backgroundColor: '#FF0000',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 8,
-  },
-  removeButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  taxesContainer: {
-    marginTop: 16,
-  },
-  taxesText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  promoCodeContainer: {
-    flexDirection: 'row',
-    marginTop: 16,
-    marginBottom: 16,
-  },
-  promoCodeInput: {
-    flex: 1,
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginRight: 8,
-    paddingHorizontal: 8,
-  },
-  applyButton: {
-    backgroundColor: '#FE724C',
-    padding: 10,
-    borderRadius: 5,
-  },
-  applyButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  totalContainer: {
-    borderTopWidth: 1,
-    borderColor: '#ccc',
-    paddingTop: 8,
-  },
-  subtotalText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  totalText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  itemImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 10,
-    marginRight: 8,
-  },
-})
 
 export default Cart

@@ -38,8 +38,8 @@ function TabsGroup() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarShowLabel: false,
         tabBarActiveTintColor: '#FE724C',
+        tabBarShowLabel: false,
       }}
     >
       <Tab.Screen
@@ -52,22 +52,10 @@ function TabsGroup() {
         }}
       />
       <Tab.Screen
-        name='Ubicaciones'
-        component={Cart}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name='map-marker'
-              color={color}
-              size={size}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
         name='Cart'
         component={Cart}
         options={{
+          title: 'Carrito de compras',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name='bag-checked'
@@ -87,15 +75,6 @@ function TabsGroup() {
               color={color}
               size={size}
             />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='Notificaciones'
-        component={TemplateScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name='bell' color={color} size={size} />
           ),
         }}
       />
@@ -173,20 +152,6 @@ function DrawerGroup() {
               size={25}
               color={color}
               focused={focused}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name='Direcciones de entrega'
-        component={AddNewAddressScreen}
-        options={{
-          drawerIcon: (focused, color) => (
-            <MaterialCommunityIcons
-              name='map-marker'
-              focused={focused}
-              size={25}
-              color={color}
             />
           ),
         }}

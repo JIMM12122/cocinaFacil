@@ -72,7 +72,7 @@ export default function HomeScreen() {
           <Icon.Menu height='25' width='25' stroke='black' />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('')}
+          onPress={() => navigation.navigate('Mi perfil')}
           style={{
             backgroundColor: '#FE724C',
             width: 40,
