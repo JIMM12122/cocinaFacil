@@ -3,16 +3,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import SettingsScreen from './screens/SettingsScreen'
 import { useAuth } from './context/AuthContext'
 import SignUpScreen from './screens/SignUpScreen'
 import LoginScreen from './screens/LoginScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
+import HomeScreen from './screens/HomeScreen'
 import TemplateScreen from './screens/TemplateScreen'
 import RecoverPasswordScreen from './screens/RecoverPasswordScreen'
 import FavoritesScreen from './screens/FavoritesScreen'
 import AddNewAddressScreen from './screens/AddNewAddress'
 import EditProfileScreen from './screens/EditProfileScreen'
+import DishListScreen from './screens/DishListScreen'
 
 // Stack
 const HomeStack = createNativeStackNavigator()
@@ -20,7 +21,7 @@ function HomeStackGroup() {
   return (
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
       <HomeStack.Screen name='TabsGroup' component={TabsGroup} />
-      <HomeStack.Screen name='TweetDetailScreen' component={SettingsScreen} />
+      <HomeStack.Screen name='DishListScreen' component={DishListScreen} />
     </HomeStack.Navigator>
   )
 }
@@ -32,7 +33,7 @@ function TabsGroup() {
     <Tab.Navigator screenOptions={{ tabBarShowLabel: false }}>
       <Tab.Screen
         name='Explore'
-        component={SettingsScreen}
+        component={HomeScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name='compass' color={color} size={size} />
