@@ -30,7 +30,7 @@ function HomeStackGroup() {
 const Tab = createBottomTabNavigator()
 function TabsGroup() {
   return (
-    <Tab.Navigator screenOptions={{ tabBarShowLabel: false }}>
+    <Tab.Navigator screenOptions={{ tabBarShowLabel: false, tabBarActiveTintColor: '#FE724C' }} >
       <Tab.Screen
         name='Explore'
         component={HomeScreen}
