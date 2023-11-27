@@ -30,6 +30,7 @@ function HomeStackGroup() {
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
       <HomeStack.Screen name='TabsGroup' component={TabsGroup} />
       <HomeStack.Screen name='DishListScreen' component={DishListScreen} />
+      <HomeStack.Screen name='Profile' component={EditProfileScreen} />
     </HomeStack.Navigator>
   )
 }
