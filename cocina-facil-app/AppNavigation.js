@@ -15,6 +15,7 @@ import AddNewAddressScreen from './screens/AddNewAddress'
 import EditProfileScreen from './screens/EditProfileScreen'
 import DishListScreen from './screens/DishListScreen'
 import Cart from './screens/Cart'
+import SettingsScreen from './screens/SettingsScreen'
 
 // Stack
 const HomeStack = createNativeStackNavigator()
@@ -34,7 +35,7 @@ function TabsGroup() {
     <Tab.Navigator screenOptions={{ tabBarShowLabel: false, tabBarActiveTintColor: '#FE724C' }} >
       <Tab.Screen
         name='Explore'
-        component={HomeScreen}
+        component={SettingsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name='compass' color={color} size={size} />
