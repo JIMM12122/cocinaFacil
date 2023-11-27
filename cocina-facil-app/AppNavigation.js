@@ -22,6 +22,7 @@ import DishListScreen from './screens/DishListScreen'
 import Cart from './screens/Cart'
 
 import { Image, Text, View } from 'react-native'
+import MyOrdersScreen from './screens/MyOrdersScreen'
 
 // Stack
 const HomeStack = createNativeStackNavigator()
@@ -131,7 +132,7 @@ function DrawerGroup() {
       />
       <Drawer.Screen
         name='Mis ordenes'
-        component={TemplateScreen}
+        component={MyOrdersScreen}
         options={{
           drawerIcon: (focused, color) => (
             <MaterialCommunityIcons
