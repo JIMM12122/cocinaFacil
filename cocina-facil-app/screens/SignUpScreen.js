@@ -1,12 +1,13 @@
 import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native'
-import { themeColors } from '../theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { ArrowLeftIcon } from 'react-native-heroicons/solid'
 import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik'
-import { saveCustomer } from '../api'
+import { ArrowLeftIcon } from 'react-native-heroicons/solid'
 import * as Yup from 'yup'
 import { showMessage } from 'react-native-flash-message'
+import { saveCustomer } from '../api'
+import GeneralButton from '../components/GeneralButton'
+import { themeColors } from '../theme'
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
@@ -56,18 +57,19 @@ export default function SignUpScreen() {
           className='flex-1 bg-white'
           style={{ backgroundColor: themeColors.bg }}
         >
-          <SafeAreaView className='flex'>
-            <View className='flex-row justify-start'>
+          <SafeAreaView className='flex pb-3'>
+            <View className='flex-row justify-start mt-2'>
               <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                className='bg-yellow-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4'
+                className='bg-green-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4'
               >
                 <ArrowLeftIcon size='20' color='black' />
               </TouchableOpacity>
             </View>
             <View className='flex-row justify-center'>
               <Image
-                source={require('../assets/images/signup.png')}
+                resizeMode='contain'
+                source={require('../assets/user.png')}
                 style={{ width: 165, height: 110 }}
               />
             </View>
@@ -78,10 +80,10 @@ export default function SignUpScreen() {
           >
             <View className='form space-y-2'>
               <View className='mb-3'>
-                <Text className='text-gray-700 ml-4'>Nombre</Text>
+                <Text className='text-gray-700 ml-4'>Nombre completo</Text>
                 <TextInput
                   className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
-                  placeholder='Enter Name'
+                  placeholder='Ingrese su nombre'
                   value={values.name}
                   onChangeText={handleChange('name')}
                   onBlur={handleBlur('name')}
@@ -93,10 +95,10 @@ export default function SignUpScreen() {
                 ) : null}
               </View>
               <View className='mb-3'>
-                <Text className='text-gray-700 ml-4'>Email</Text>
+                <Text className='text-gray-700 ml-4'>Correo electrónico</Text>
                 <TextInput
                   className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
-                  placeholder='Enter Email'
+                  placeholder='Ingrese su correo electrónico'
                   value={values.email}
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
@@ -112,7 +114,7 @@ export default function SignUpScreen() {
                 <TextInput
                   className='p-4 bg-gray-100 text-gray-700 rounded-2xl'
                   secureTextEntry
-                  placeholder='Enter Password'
+                  placeholder='Ingrese su contraseña'
                   value={values.password}
                   onChangeText={handleChange('password')}
                   onBlur={handleBlur('password')}
@@ -123,14 +125,7 @@ export default function SignUpScreen() {
                   </Text>
                 ) : null}
               </View>
-              <TouchableOpacity
-                className='py-3 bg-yellow-400 rounded-xl'
-                onPress={handleSubmit}
-              >
-                <Text className='font-xl font-bold text-center text-gray-700'>
-                  Registrarme
-                </Text>
-              </TouchableOpacity>
+              <GeneralButton title={'Registrarme'} onPress={handleSubmit} />
             </View>
             <Text className='text-xl text-gray-700 font-bold text-center py-5'>
               O Ingresar con
@@ -148,7 +143,7 @@ export default function SignUpScreen() {
                 ¿Ya tienes una cuenta?
               </Text>
               <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text className='font-semibold text-yellow-500'> Ingresar</Text>
+                <Text className='font-semibold text-green-500'> Ingresar</Text>
               </TouchableOpacity>
             </View>
           </View>
