@@ -1,6 +1,7 @@
 import { Text, View } from 'react-native'
-import List from '../components/ListRCard'
 import  imagen from "../assets/images/pizza.png"
+import Vote from "../components/Vote"
+import MyOrders from '../components/MyOrders';
 
 export default function SettingsScreen() {
   
@@ -44,7 +45,7 @@ export default function SettingsScreen() {
   ];
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <List Cards={cards} />
+      <MyOrders/>
     </View>
   )
 }
