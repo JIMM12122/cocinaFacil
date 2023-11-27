@@ -90,6 +90,9 @@ export const loginCustomer = async (email, password) => {
         password,
         name,
         phone,
+        address[]->{
+          ...
+        }
       }
     `,
       { email },
@@ -111,6 +114,7 @@ export const loginCustomer = async (email, password) => {
       email: email,
       name: customer.name,
       phone: customer.phone,
+      address: customer.address,
     }
   } catch (error) {
     console.log('Error logging in: ', error)

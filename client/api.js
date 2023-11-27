@@ -16,6 +16,18 @@ export const getFeaturedResturants = () => {
     `)
 }
 
+export const getAddresses = () => {
+  return sanityQuery(`
+  *[_type == 'addDirecctions'] {
+    _id,
+    direction,
+    canton,
+    district,
+    province
+  }
+`)
+}  
+
 export const getCategories = async () => {
   try {
     const response = await sanityQuery(`

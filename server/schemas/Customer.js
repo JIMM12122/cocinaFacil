@@ -31,10 +31,12 @@ export default {
           title: 'Teléfono',
         },
         {
-            name: 'address',
-            type: 'string',
-            title: 'Dirección',
-            },
+          name: 'address',
+          type: 'array',
+          title: 'Dirección',
+          of: [{ type: 'reference', to: [{ type: 'addDirecctions' }] }],
+          validation: Rule => Rule.unique().max(1), 
+        },
             {
             name: 'orders',
             type: 'array',
