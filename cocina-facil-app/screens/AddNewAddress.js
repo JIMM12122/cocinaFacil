@@ -1,41 +1,40 @@
-import React from 'react';
-import { View, Text, TextInput } from 'react-native';
-import { TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArrowLeftIcon } from 'react-native-heroicons/solid';
-import { themeColors } from '../theme';
-import client from '../sanity';
-import { useAuth } from '../context/AuthContext';
-import { useNavigation } from '@react-navigation/native';
-import { Formik } from 'formik';
-import * as yup from 'yup'; // Importa yup para la validación
-import GeneralButton from '../components/GeneralButton';
+import React from 'react'
+import { View, Text, TextInput } from 'react-native'
+import { TouchableOpacity } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { ArrowLeftIcon } from 'react-native-heroicons/solid'
+import { themeColors } from '../theme'
+import client from '../sanity'
+import { useAuth } from '../context/AuthContext'
+import { useNavigation } from '@react-navigation/native'
+import { Formik } from 'formik'
+import * as yup from 'yup' // Importa yup para la validación
+import GeneralButton from '../components/GeneralButton'
 
 const validationSchema = yup.object().shape({
   direction: yup.string().required('La dirección exacta es requerida'),
   canton: yup.string().required('El cantón es requerido'),
-  district: yup.string().required('El distrito es requerido'), 
+  district: yup.string().required('El distrito es requerido'),
   province: yup.string().required('La provincia es requerida'),
-});
+})
 
 const AddNewAddress = () => {
-  const navigation = useNavigation();
-  const { user, setUser } = useAuth();
-
+  const navigation = useNavigation()
+  const { user, setUser } = useAuth()
 
   const handleAddAddress = async (values) => {
-    console.log('Nueva dirección:', values);
+    console.log('Nueva dirección:', values)
     try {
       await client.create({
         _type: 'addDirecctions',
         ...values,
-      });
-      alert('Dirección agregada exitosamente a Sanity.');
-      console.log('Dirección agregada exitosamente a Sanity.');
+      })
+      alert('Dirección agregada exitosamente a Sanity.')
+      console.log('Dirección agregada exitosamente a Sanity.')
     } catch (error) {
-      console.error('Error al agregar dirección a Sanity:', error);
+      console.error('Error al agregar dirección a Sanity:', error)
     }
-  };
+  }
 
   return (
     <Formik
@@ -64,11 +63,10 @@ const AddNewAddress = () => {
           </SafeAreaView>
 
           <View
+          className='mt-4'
             style={{
-              borderTopLeftRadius: 10,
-              borderBottomLeftRadius: 50,
-              borderBottomRightRadius: 10,
-              borderTopRightRadius: 12,
+              borderTopLeftRadius: 30,
+              borderTopRightRadius: 30,
               flex: 1,
               backgroundColor: 'white',
               paddingHorizontal: 8,
@@ -82,10 +80,9 @@ const AddNewAddress = () => {
                 justifyContent: 'space-between',
               }}
             >
-              <View className='mb-1'>
+              <View className='mb-3 mt-2'>
                 <Text
                   style={{
-                    width: 60,
                     color: '#788080',
                     fontSize: 16,
                     fontWeight: 'normal',
@@ -114,7 +111,7 @@ const AddNewAddress = () => {
                     fontWeight: 'normal',
                   }}
                 >
-                  Canton
+                  Cantón
                 </Text>
                 <TextInput
                   style={{
@@ -133,10 +130,9 @@ const AddNewAddress = () => {
                 )}
               </View>
 
-              <View style={{ marginBottom: 3 }}>
+              <View className={'mb-3'}>
                 <Text
                   style={{
-                    width: 60,
                     color: '#788080',
                     fontSize: 16,
                     fontWeight: 'normal',
@@ -161,10 +157,9 @@ const AddNewAddress = () => {
                 )}
               </View>
 
-              <View style={{ marginBottom: 3 }}>
+              <View className="mb-3">
                 <Text
                   style={{
-                    width: 60,
                     color: '#788080',
                     fontSize: 16,
                     fontWeight: 'normal',
@@ -191,6 +186,7 @@ const AddNewAddress = () => {
             </View>
 
             <View
+            className='mt-5'
               style={{
                 borderTopLeftRadius: 50,
                 borderTopRightRadius: 50,
@@ -200,18 +196,13 @@ const AddNewAddress = () => {
                 paddingTop: 8,
               }}
             >
-              <View>
-                <GeneralButton
-                  title={'Guardar cambios'}
-                  onPress={handleSubmit}
-                />
-              </View>
+              <GeneralButton title={'Guardar cambios'} onPress={handleSubmit} />
             </View>
           </View>
         </View>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default AddNewAddress;
+export default AddNewAddress
