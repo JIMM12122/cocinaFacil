@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
+  Image,
 } from 'react-native'
-import GeneralButton from '../components/GeneralButton'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { ArrowLeftIcon } from 'react-native-heroicons/solid'
 import { useNavigation } from '@react-navigation/native'
+import GeneralButton from '../components/GeneralButton'
 
 const Cart = () => {
   const navigation = useNavigation()
@@ -28,9 +28,11 @@ const Cart = () => {
       0,
     )
   }
+
   const calculateTaxes = () => {
     return (calculateSubtotal() * taxes) / 100
   }
+
   const calculateTotal = () => {
     const subtotal = calculateSubtotal()
     return subtotal + (subtotal * taxes) / 100
@@ -68,36 +70,43 @@ const Cart = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.cartItem}>
+      <Image
+        source={require('../assets/images/pizza.png')}
+        style={styles.itemImage}
+      />
       <Text style={styles.itemName}>{item.name}</Text>
       <Text style={styles.itemPrice}>CRC {item.price.toFixed(2)}</Text>
       <Text style={styles.itemQuantity}>Cantidad: {item.quantity}</Text>
-      <TouchableOpacity
-        style={styles.addMoreButton}
-        onPress={() => AddMoreItem(item.id)}
-      >
-        <Text style={styles.addMoreButtonText}>+</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.removeButton}
-        onPress={() => removeItem(item.id)}
-      >
-        <Text style={styles.removeButtonText}>-</Text>
-      </TouchableOpacity>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.addMoreButton}
+          onPress={() => AddMoreItem(item.id)}
+        >
+          <Text style={styles.addMoreButtonText}>+</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.removeButton}
+          onPress={() => removeItem(item.id)}
+        >
+          <Text style={styles.removeButtonText}>-</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 
   return (
     <View style={styles.container}>
-      
-        <View  className='flex-row justify-start mt-1' >
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            className='bg-green-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4'
-          >
-            <ArrowLeftIcon size={20} color='black' />
-          </TouchableOpacity>
-        </View>
-      
+      <View style={styles.header}>
+      <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                className='bg-green-400 p-2 rounded-tr-2xl rounded-bl-2xl ml-4'
+              >
+                <ArrowLeftIcon size='20' color='black' />
+              </TouchableOpacity>
+      </View>
+
       <FlatList
         data={cartItems}
         renderItem={renderItem}
@@ -129,9 +138,7 @@ const Cart = () => {
         <Text style={styles.totalText}>
           Total: CRC {calculateTotal().toFixed(2)}
         </Text>
-        <View>
-          <GeneralButton title={'Realizar pedido'} onPress={handleSubmit} />
-        </View>
+        <GeneralButton title={'Realizar pedido'} onPress={handleSubmit} />
       </View>
     </View>
   )
@@ -143,6 +150,12 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#fff',
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: 1,
+  },
+
   cartItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -164,13 +177,14 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   addMoreButton: {
-    backgroundColor: '#2196F3',
+   
+    backgroundColor: 'orange-400',
     padding: 10,
     borderRadius: 5,
     marginTop: 8,
   },
   addMoreButtonText: {
-    color: '#fff',
+    color: '#solid-orange-400',
     fontSize: 16,
     textAlign: 'center',
   },
@@ -206,7 +220,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   applyButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#FE724C',
     padding: 10,
     borderRadius: 5,
   },
@@ -229,16 +243,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  checkoutButton: {
-    backgroundColor: '#4CAF50',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 16,
-  },
-  checkoutText: {
-    color: '#fff',
-    fontSize: 18,
-    textAlign: 'center',
+  itemImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    marginRight: 8,
   },
 })
 
