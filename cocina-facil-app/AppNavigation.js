@@ -10,6 +10,9 @@ import LoginScreen from './screens/LoginScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
 import TemplateScreen from './screens/TemplateScreen'
 import RecoverPasswordScreen from './screens/RecoverPasswordScreen'
+import FavoritesScreen from './screens/FavoritesScreen'
+import AddNewAddressScreen from './screens/AddNewAddress'
+import EditProfileScreen from './screens/EditProfileScreen'
 
 // Stack
 const HomeStack = createNativeStackNavigator()
@@ -64,7 +67,7 @@ function TabsGroup() {
       />
       <Tab.Screen
         name='Favoritos'
-        component={TemplateScreen}
+        component={FavoritesScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
@@ -110,7 +113,7 @@ function DrawerGroup() {
       />
       <Drawer.Screen
         name='Mi perfil'
-        component={TemplateScreen}
+        component={EditProfileScreen}
         options={{
           drawerIcon: (focused, size, color) => (
             <MaterialCommunityIcons
@@ -124,7 +127,7 @@ function DrawerGroup() {
       />
       <Drawer.Screen
         name='Direcciones de entrega'
-        component={TemplateScreen}
+        component={AddNewAddressScreen}
         options={{
           drawerIcon: (focused, size, color) => (
             <MaterialCommunityIcons
@@ -230,7 +233,7 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      {user ? <DrawerGroup /> : <AuthNavigation />}
+      {!user ? <DrawerGroup /> : <AuthNavigation />}
     </NavigationContainer>
   )
 }
